@@ -3,8 +3,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\userApiController;
+use App\Http\Controllers\auth\authController;
+use App\Http\Controllers\user\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,15 +15,29 @@ use App\Http\Controllers\userApiController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post('/auth/login', [UserController::class, 'loginUser']);
 
-Route::post('/auth/register', [UserController::class, 'createUser']);
-Route::get('/users', [userApiController::class, 'index']);
-Route::get('/users/{id}', [userApiController::class, 'show']);
-Route::post('/users/create', [userApiController::class, 'create']);
-Route::delete('/users/{id}', [userApiController::class, 'destroy']);
-Route::post('/users/{id}', [userApiController::class, 'update']);
+// routes prefix , auth controller, name convintion of lohin
 
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [authController::class, 'login']);
+    Route::post('/register', [authController::class, 'register']);
+});
+
+
+
+
+// routes:: resource api
+
+Route::resource('users', UserController::class);
+
+// Route::get('/users', [userController::class, 'index']);
+// Route::get('/users/{user}', [userController::class, 'show']);
+// Route::post('/users', [userController::class, 'create']);
+// Route::delete('/users/{user}', [userController::class, 'destroy']);
+// Route::put('/users/{user}', [userController::class, 'update']);
+
+
+// company name, describ, logo, size, market size 
 
 
 

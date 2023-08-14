@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\user;
 use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Helpers\UserValidationRules;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class userApiController extends Controller
+class UserController extends Controller
 {
+// resource user laravel
 
     public function index()
     {
+        // not all users 
         $users = User::all();
         return response()->json($users);
 
@@ -21,16 +25,12 @@ class userApiController extends Controller
 
 
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         
             // check if the post body is valid or not
-            $validateUser = Validator::make($request->all(), 
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make($request->all(), UserValidationRules::userCreateRules());
+
           
 
             if($validateUser->fails()){
@@ -59,14 +59,13 @@ class userApiController extends Controller
     }
 
 
-
-    public function show(string $id)
+// resource user
+    public function show(User $user)
     {
-        $user = User::find($id);
+        // $user = User::find($id);
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
-
         return response()->json(['status' => 'success', 'data' => $user]);
 
        
@@ -75,9 +74,9 @@ class userApiController extends Controller
 
 
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
+        // $user = User::find($user);
 
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
@@ -92,9 +91,9 @@ class userApiController extends Controller
 
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::find($id);
+        $user = User::find($user);
 
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);

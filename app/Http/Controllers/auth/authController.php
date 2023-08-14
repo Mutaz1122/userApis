@@ -1,6 +1,6 @@
 <?php
-
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\auth;
+use App\Http\Controllers\Controller;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+// validation format , validation length and type, family request 
+class authController extends Controller
 {
 
     // register and create user controller 
-    public function createUser(Request $request)
+    public function register(Request $request)
     {
         
             // check if the post body is valid or not
@@ -29,7 +30,7 @@ class UserController extends Controller
                     'status' => false,
                     'message' => 'validation error',
                     'errors' => $validateUser->errors()
-                ], 401);
+                ], 422);
             }
 
             // create a user 
@@ -50,7 +51,7 @@ class UserController extends Controller
 
 
         // login conroller
-    public function loginUser(Request $request)
+    public function login(Request $request)
     {
 
             // check if the post body is valid or not
@@ -65,7 +66,7 @@ class UserController extends Controller
                     'status' => false,
                     'message' => 'validation error',
                     'errors' => $validateUser->errors()
-                ], 401);
+                ], 422);
             }
 
 
