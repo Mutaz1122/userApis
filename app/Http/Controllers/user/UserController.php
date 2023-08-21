@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\user;
 use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\Helpers\UserValidationRules;
-
+use App\Http\Requests\Auth\StoreUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -25,19 +24,18 @@ class UserController extends Controller
 
 
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         
-            // check if the post body is valid or not
-            $validateUser = Validator::make($request->all(), UserValidationRules::userCreateRules());
+           
 
           
 
-            if($validateUser->fails()){
+            if($request->fails()){
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
-                    'errors' => $validateUser->errors()
+                    'errors' => $request->errors()
                 ], 401);
             }
 

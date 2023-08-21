@@ -16,19 +16,28 @@ use App\Http\Controllers\user\UserController;
 |
 */
 
-// routes prefix , auth controller, name convintion of lohin
+// middlewm, route name
+Route::prefix('v1/admin')->name("api.v1.admin.")->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function(){
 
-Route::prefix('auth')->group(function () {
-    Route::post('/login', [authController::class, 'login']);
-    Route::post('/register', [authController::class, 'register']);
+        Route::resource('users', UserController::class);
+
+    });
+    Route::prefix('auth')->group(function () {
+        Route::post('/login', [authController::class, 'login']);
+        Route::post('/register', [authController::class, 'register']);
+
+    });
+
 });
+
+
 
 
 
 
 // routes:: resource api
 
-Route::resource('users', UserController::class);
 
 // Route::get('/users', [userController::class, 'index']);
 // Route::get('/users/{user}', [userController::class, 'show']);
