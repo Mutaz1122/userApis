@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Requests\Auth;
-
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest
@@ -23,8 +23,13 @@ class StoreUserRequest extends FormRequest
     {
         return [
     'name' => ['required','string','max:255'],
-            'email' => ['required','email','unique:users','email','max:255'],
-            'password' => ['required','min:8'],
-        ];
+            'email' => ['required','email','unique:users','email'],
+            'password' => [
+                'required',
+                'min:8',
+                'strong_password'                
+                
+            ]
+                ];
     }
 }
