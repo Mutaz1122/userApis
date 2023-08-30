@@ -1,10 +1,9 @@
 <?php
 
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\auth\authController;
-use App\Http\Controllers\user\UserController;
+use App\Http\Controllers\Api\V1\auth\authController;
+use App\Http\Controllers\Api\V1\user\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,7 +15,6 @@ use App\Http\Controllers\user\UserController;
 |
 */
 
-// middlewm, route name
 Route::prefix('v1/admin')->name("api.v1.admin.")->group(function () {
     Route::middleware(['auth:sanctum'])->group(function(){
 
@@ -30,23 +28,6 @@ Route::prefix('v1/admin')->name("api.v1.admin.")->group(function () {
     });
 
 });
-
-
-
-
-
-
-// routes:: resource api
-
-
-// Route::get('/users', [userController::class, 'index']);
-// Route::get('/users/{user}', [userController::class, 'show']);
-// Route::post('/users', [userController::class, 'create']);
-// Route::delete('/users/{user}', [userController::class, 'destroy']);
-// Route::put('/users/{user}', [userController::class, 'update']);
-
-
-// company name, describ, logo, size, market size 
 
 
 
