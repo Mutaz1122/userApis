@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api\V1\user;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\Api\V1\Admin\Users\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Auth\StoreUserRequest;
@@ -14,8 +13,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = $request->query('per_page', 10);
-    $users = User::paginate($perPage);
+    $users = User::paginate(10);
 
     return UserResource::collection($users);
 
@@ -35,9 +33,9 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => true,
-                'user'=> $user,
+                'user'=> new UserResource($user),
                 'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                // 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
 
       
@@ -84,6 +82,6 @@ class UserController extends Controller
             'updated_at' => now()
         ]);
 
-        return response()->json(['status' => 'success', 'message' => 'User updated', 'data' => $user]);
+        return response()->json(['status' => 'success', 'message' => 'User updated', 'data' => new UserResource($user)]);
     }
 }
